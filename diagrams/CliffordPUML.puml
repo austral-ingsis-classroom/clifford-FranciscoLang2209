@@ -1,0 +1,72 @@
+@startuml
+
+interface Node {
+    + String getName()
+    + Directory getParent()
+}
+
+class VirtualFileSystem {
+    - Node root
+    - Node current
+    + void execute(String command)
+}
+
+class Directory {
+    - String name
+    - List<Node>
+    + String getName()
+    + Directory getParent()
+    + void add(Node node)
+    + void remove(Node node)
+    + List<Node> getChildren()
+}
+
+class File {
+    - String name
+    + String getName()
+    + Directory getParent()
+}
+
+Node <|.. Directory
+Node <|.. File
+
+VirtualFileSystem *- Node
+VirtualFileSystem --> Command
+Node --* Directory
+
+
+interface Command {
+    + void execute()
+}
+
+class List {
+    + void execute()
+}
+
+class ChangeDirectory {
+    + void execute()
+}
+
+class MakeDirectory {
+    + void execute()
+}
+
+class RemoveDirectory {
+    + void execute()
+}
+
+class DeleteFile {
+    + void execute()
+}
+
+class Touch {
+    + void execute()
+}
+
+Command <|.. List
+Command <|.. ChangeDirectory
+Command <|.. MakeDirectory
+Command <|.. RemoveDirectory
+Command <|.. DeleteFile
+Command <|.. Touch
+@enduml
